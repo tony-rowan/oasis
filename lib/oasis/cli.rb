@@ -34,10 +34,22 @@ module Oasis
       )
 
       server.mount_proc '/' do |req, res|
+        matched = false
+
+        parsed_api['paths'].keys.each do |path|
+          path_parts = path.split('/')
+          parsed_path = path_parts.map do |path_part|
+            path_part =~ /^\{([A-Za-z0-9]+)\}$/ ? '[^\/]+' : path_part
+          end.join('\/')
+
+          matched = true if req.path =~ Regexp.new("^#{parsed_path}$")
+        end
+
         response = {
+          matched: matched,
           method: req.request_method,
           path: req.path,
-          api_paths: parsed_api['paths']
+          api_paths: parsed_api['paths'].keys
         }
         res.body = response.to_json.to_s
       end
