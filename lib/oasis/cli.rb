@@ -8,7 +8,12 @@ require 'yaml'
 module Oasis
 
   class CLI < Thor
+    package_name 'Oasis'
 
+    option :host, aliases: '-h', default: '0.0.0.0',
+      desc: 'Mock server will listen on this host'
+    option :port, aliases: '-p', default: 3000, type: :numeric,
+      desc: 'Mock server will listen on this port'
     desc 'mock FILE', 'Start a server to mock the API specified in FILE'
     def mock(file)
       string_api = File.read(file)
@@ -23,7 +28,10 @@ module Oasis
         end
       end
 
-      server = WEBrick::HTTPServer.new(Port: 3000, Host: '0.0.0.0')
+      server = WEBrick::HTTPServer.new(
+        Host: options[:host],
+        Port: options[:port]
+      )
 
       server.mount_proc '/' do |req, res|
         response = {
