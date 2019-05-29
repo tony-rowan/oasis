@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Oasis
-  require 'oasis/api'
-  require 'oasis/cli'
+  module API
+    class Path
+    end
+  end
 end

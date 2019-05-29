@@ -2,5 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'rubocop', '~> 0.70.0'
-gem 'thor', '~> 0.20.3'
+gem 'rubocop', '~> 0.70'
+gem 'thor', '~> 0.20'
+gem 'webrick', '~> 1.4'
