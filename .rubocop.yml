@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - 'bin/*'
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
