@@ -56,8 +56,9 @@ module Oasis
         if operation_data.nil?
           response.status = 405
         else
-          response.body =
-            operation_data['responses']['200']['schema'].to_json.to_s
+          response.body = sample(
+            operation_data['responses']['200']['schema']
+          ).to_json.to_s
         end
 
         return response
@@ -76,14 +77,47 @@ module Oasis
         if operation_data.nil?
           response.status = 405
         else
-          response.body =
-            operation_data['responses']['200']['schema'].to_json.to_s
+          response.body = sample(
+            operation_data['responses']['200']['schema']
+          ).to_json.to_s
         end
 
         return response
       end
 
       response.status = 404
+    end
+
+    def sample(schema)
+      if schema['$ref']
+        {
+          'reference' => schema['$ref']
+        }
+      else
+        case schema['type']
+        when 'array'
+          [sample(schema['items']), sample(schema['items'])]
+        when 'object'
+          data = {}
+          schema['properties']&.each do |property_name, property_data|
+            data[property_name] = sample(property_data)
+          end
+          if schema['additionalProperties']
+            data['additionalProp0'] = sample(schema['additionalProperties'])
+            data['additionalProp1'] = sample(schema['additionalProperties'])
+            data['additionalProp2'] = sample(schema['additionalProperties'])
+          end
+          data
+        when 'string'
+          'string'
+        when 'boolean'
+          true
+        when 'number'
+          3.14
+        when 'integer'
+          99
+        end
+      end
     end
   end
 
