@@ -4,4 +4,4 @@ $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 
 require 'oasis'
 
-Oasis::Main.start(ARGV)
+Oasis::CLI.start(ARGV)
