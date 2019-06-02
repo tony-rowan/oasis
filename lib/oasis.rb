@@ -90,9 +90,15 @@ module Oasis
 
     def sample(schema)
       if schema['$ref']
-        {
-          'reference' => schema['$ref']
-        }
+        reference_schema = api_document
+        schema['$ref'].split('/').each do |part|
+          # A '#' signifies the definition is to be found within this document,
+          # which is the only thing we support anyway
+          next if part == '#'
+
+          reference_schema = reference_schema[part]
+        end
+        sample(reference_schema)
       else
         case schema['type']
         when 'array'
