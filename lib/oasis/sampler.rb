@@ -11,44 +11,31 @@ module Oasis
     end
 
     def mock(request, response)
-      # Check for exact matches first
+      path = find_path(request)
+      response.status = 404 && return unless path
+
+      operation = path[request.request_method.downcase]
+      response.status = 405 && return unless operation
+
+      response.body = sample(
+        operation['responses']['200']['schema']
+      ).to_json.to_s
+    end
+
+    def find_path(request)
       api_document['paths'].each do |path, path_data|
-        next unless request.path == path
-
-        operation_data = path_data[request.request_method.downcase]
-        if operation_data.nil?
-          response.status = 405
-        else
-          response.body = sample(
-            operation_data['responses']['200']['schema']
-          ).to_json.to_s
-        end
-
-        return response
+        return path_data if request.path == path
       end
 
-      # Check for path parameter matches, using a regex
       api_document['paths'].each do |path, path_data|
-        path_parts = path.split('/')
-        parsed_path = path_parts.map do |path_part|
+        parsed_path = path.split('/').map do |path_part|
           path_part =~ /^\{([A-Za-z0-9]+)\}$/ ? '[^\/]+' : path_part
         end.join('\/')
 
-        next unless request.path =~ Regexp.new("^#{parsed_path}$")
-
-        operation_data = path_data[request.request_method.downcase]
-        if operation_data.nil?
-          response.status = 405
-        else
-          response.body = sample(
-            operation_data['responses']['200']['schema']
-          ).to_json.to_s
-        end
-
-        return response
+        return path_data if request.path =~ Regexp.new("^#{parsed_path}$")
       end
 
-      response.status = 404
+      nil
     end
 
     def sample(schema)
