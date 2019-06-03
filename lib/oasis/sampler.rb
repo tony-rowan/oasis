@@ -17,9 +17,14 @@ module Oasis
       operation = path[request.request_method.downcase]
       response.status = 405 && return unless operation
 
-      response.body = sample(
-        operation['responses']['200']['schema']
-      ).to_json.to_s
+      schema = operation.dig('responses', '200', 'schema')
+      unless schema
+        response.status = 400
+        response.body = 'No 200 response defined'
+        return
+      end
+
+      response.body = sample(schema).to_json.to_s
     end
 
     def find_path(request)

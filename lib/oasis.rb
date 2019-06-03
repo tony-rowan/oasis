@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Oasis
-  require 'oasis/cli'
-  require 'oasis/parser'
-  require 'oasis/sampler'
-  require 'oasis/server'
+  require_relative 'oasis/cli'
+  require_relative 'oasis/parser'
+  require_relative 'oasis/sampler'
+  require_relative 'oasis/server'
 end
