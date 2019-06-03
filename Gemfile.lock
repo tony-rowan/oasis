@@ -16,6 +16,7 @@ GEM
     http-form_data (2.1.1)
     http_parser.rb (0.6.0)
     jaro_winkler (1.5.2)
+    minitest (5.11.3)
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
@@ -42,6 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   http (~> 4.1)
+  minitest (~> 5.11)
   rake (~> 12.3)
   rubocop (~> 0.70)
   thor (~> 0.20)
