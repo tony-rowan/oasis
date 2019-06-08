@@ -8,7 +8,7 @@ module Oasis
 
     attr_reader :api_document_file, :force_json, :force_yaml
 
-    def initialize(api_document_file, force_json, force_yaml)
+    def initialize(api_document_file, force_json: false, force_yaml: false)
       @api_document_file = api_document_file
       @force_json = force_json
       @force_yaml = force_yaml

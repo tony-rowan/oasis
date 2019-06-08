@@ -16,7 +16,11 @@ module Oasis
       desc: 'Force parsing the api document as YMAL'
     desc 'mock FILE', 'Start a server to mock the API specified in FILE'
     def mock(api_document_file)
-      parser = Parser.new(api_document_file, options[:json], options[:yaml])
+      parser = Parser.new(
+        api_document_file,
+        force_json: options[:json], force_yaml: options[:yaml]
+      )
+
       # Parse the file before serving to detect problems early
       parser.api_document!
       Server.new(parser, options[:host], options[:port]).serve
