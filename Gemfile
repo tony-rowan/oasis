@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+gem 'guard', '~> 2.15'
+gem 'guard-minitest', '~> 2.4'
 gem 'http', '~> 4.1'
 gem 'minitest', '~> 5.11'
 gem 'rake', '~> 12.3'

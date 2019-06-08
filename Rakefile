@@ -5,7 +5,7 @@ task default: %I[minitest integration_tests]
 
 desc 'Run all of the unit tests'
 task :minitest do
-  ruby(FileList['test/minitest/*.rb'])
+  ruby(FileList['test/oasis/*.rb'])
 end
 
 desc 'Run the integration tests'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('./test_helper.rb', __dir__)
+require File.expand_path('../test_helper.rb', __dir__)
 
 class TestParser < Minitest::Test
   def test_that_parser_can_detect_json
